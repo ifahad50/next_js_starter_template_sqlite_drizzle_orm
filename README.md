@@ -22,4 +22,4 @@ npm run db:migrate
 
 # Contains
 
-Shadcn Drizzle ORM react-hot-toast
+Shadcn, Drizzle ORM, sqlite database
