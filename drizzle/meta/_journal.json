@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1724652224009,
+      "tag": "0000_fixed_starjammers",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1724656538243,
+      "tag": "0001_wise_guardsmen",
+      "breakpoints": true
+    }
+  ]
+}
