@@ -13,12 +13,15 @@ export const signUp = async (userData: {
     email: string;
     password: string;
 }) => {
-    // Check if the user already exists in the database
-    const user = await db.query.users.findFirst({
-        where: eq(users.email, userData.email.toLowerCase())
-    });
+    try {
+        // Check if the user already exists in the database
+        const user = await db.query.users.findFirst({
+            where: eq(users.email, userData.email.toLowerCase())
+        });
 
-    if (!user) {
+        if (user) {
+            throw new Error('User already exists')
+        }
         // Hash the user's password before storing it
         const saltRounds = 10;  // Salt rounds determine the cost of processing the data
         const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
@@ -29,6 +32,9 @@ export const signUp = async (userData: {
             full_name: userData.fullName,
             password: hashedPassword  // Store the hashed password
         });
+
+    } catch (error: any) {
+        throw new Error(error?.message)
     }
 };
 
@@ -62,6 +68,7 @@ export const signIn = async ({ email, password }: { email: string, password: str
         user_id: user.id,
         session_id: sessionId
     })
+    //write function to invalidate sessions
 
     cookies().set(COOKIE_USER_ID_KEY, String(user.id));
     cookies().set(COOKIE_USER_SESSION_ID_KEY, sessionId);

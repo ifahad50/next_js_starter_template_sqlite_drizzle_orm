@@ -1,4 +1,5 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,18 +11,33 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { toast } from '@/components/ui/use-toast'
 import { signUp } from '@/lib/auth'
+import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 
 export default function SignUpPage() {
+  const router = useRouter()
   const [userObj, setUserObj] = useState({
     fullName: '',
     email: '',
     password: ''
   })
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    signUp(userObj)
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault()
+      await signUp(userObj)
+      toast({
+        variant: 'default',
+        title: 'Account created successfully'
+      })
+      router.push('/sign-in')
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: error?.message
+      })
+    }
   }
   return (
     <div className='flex h-screen w-full items-center justify-center'>
